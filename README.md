@@ -17,13 +17,6 @@ lightweight, reproducible, and easy to deploy.
 The application is deployed using **Docker containers**.
 
 ## Services
-
-  Service                           Purpose
-  --------------------------------- ------------------------
-  WordPress                         Web application
-  MariaDB                           Database for WordPress
-  phpMyAdmin                        Database management
-
 |  Service   |  Purpose                 |   
 |------------|--------------------------|
 | WordPress  |  Web application         |   
@@ -31,15 +24,15 @@ The application is deployed using **Docker containers**.
 | phpMyAdmin |  Database management     |   
 
 Example architecture:
-
-User Browser\
-│\
-▼\
-WordPress Container (Apache + PHP)\
-│\
-▼\
+```
+User Browser
+│
+▼
+WordPress Container (Apache + PHP)
+│
+▼
 MariaDB Container
-
+```
 ------------------------------------------------------------------------
 
 # Technologies Used
