@@ -30,7 +30,7 @@ services:
       - "8080:80"
 
   apache:
-    image: php:8.2-apache
+    build: .
     container_name: apache-web
     restart: unless-stopped
     volumes:
