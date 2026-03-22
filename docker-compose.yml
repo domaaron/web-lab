@@ -2,45 +2,44 @@ version: "3.8"
 
 services:
   mariadb:
-    image: mariadb:latest
-    container_name: mariadb
+    image: mariadb:11.4
     restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: mypassword
-      MYSQL_DATABASE: mydatabase
-      MYSQL_USER: myuser
-      MYSQL_PASSWORD: mypassword
+    env_file:
+      - .env
     volumes:
       - ./data:/var/lib/mysql
-    ports:
-      - "3306:3306"
     networks:
       - webnetz
 
   phpmyadmin:
-    image: phpmyadmin:latest
-    container_name: phpmyadmin
+    image: phpmyadmin:5.2
     restart: unless-stopped
     environment:
       PMA_HOST: mariadb
-      PMA_PORT: 3306
+    depends_on:
+      - mariadb
+    ports:
+      - "127.0.0.1:8081:80"
     networks:
       - webnetz
-    ports:
-      - "8080:80"
 
   apache:
     build: .
-    container_name: apache-web
     restart: unless-stopped
+    user: "33:33"
     volumes:
       - ./www:/var/www/html
-      - ./conf:/etc/apache2/sites-enabled
+    ports:
+      - "127.0.0.1:8082:80"
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/run/apache2
+    cap_drop:
+      - ALL
     networks:
       - webnetz
-    ports:
-      - "80:80"
 
 networks:
   webnetz:
-    external: true
+    driver: bridge
